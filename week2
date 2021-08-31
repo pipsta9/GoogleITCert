@@ -1,0 +1,18 @@
+#! /usr/bin/env python3
+
+import os
+import requests
+
+dict = {}
+
+for file in os.listdir("/data/feedback"):
+  with open("/data/feedback/" + file, 'r') as f:
+    all_lines = f.readlines()
+    dict["title"] = all_lines[0].strip()
+    dict["name"] = all_lines[1].strip()
+    dict["date"] = all_lines[2].strip()
+    dict["feedback"] = all_lines[3].strip()
+  response = requests.post("http://35.223.221.14/feedback/", json=dict)
+
+print(response.request.body)
+print(response.status_code)
