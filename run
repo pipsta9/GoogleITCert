@@ -1,0 +1,18 @@
+#! /usr/bin/env python3
+
+import os
+import requests
+
+dict = {}
+directory = r'supplier-data/descriptions/'
+
+for file in os.listdir(directory):
+  with open(directory + file, 'r') as f:
+    all_lines = f.readlines()
+    dict["name"] = all_lines[0].strip()
+    dict["weight"] = int(all_lines[1].rstrip(" lbs\n"))
+    dict["description"] = all_lines[2].strip()
+    dict["image_name"] = os.path.splitext(file)[0] + ".jpeg"
+  response = requests.post("http://34.133.159.192/fruits/", json=dict)
+
+print(response.status_code)
